@@ -12,7 +12,7 @@ class ChessTrieNode():
 	def add_move(self, move):
 		self.frequency += 1
 		if move not in self.children:
-			self.children[move] = ChessTrieNode(move) 			
+			self.children[move] = ChessTrieNode(move)
 
 		return self.children[move]
 
@@ -58,7 +58,7 @@ class UserDataFetcher():
 			data = list(filter(lambda x: x[color_filter.value]['username'] == username, data))
 		pgns = list(map(self.__extract_pgn_from_game_json , data))
 
-		return list(filter(None, pgns)) 
+		return list(filter(None, pgns))
 
 	def __extract_pgn_from_game_json(self, game_json):
 		raw_pgn = game_json['pgn']
@@ -78,16 +78,15 @@ class UserDataFetcher():
 			result.append('{}. {} {}'.format(i + 1, moves[2 * i], moves[2 * i + 1]))
 		return result
 
+username = input('Enter username: ').strip()
+num_games = int(input('Enter number of games you want to analyze: ').strip())
 
 fetcher = UserDataFetcher()
-pgns = fetcher.get_pgns('pranetverma', ColorFilter.WHITE)
+pgns = fetcher.get_pgns(username, ColorFilter.WHITE)
 
 trie = ChessTrie()
 
-for pgn in pgns[0:50]:
+for pgn in pgns[0:num_games]:
 	trie.add_game(pgn[0:3])
 
 trie.display()
-
-
-
